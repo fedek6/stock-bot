@@ -1,5 +1,13 @@
 # Lesson 1: Google API
 
+## Update .env file
+
+```env
+TWITTER_KEY=""
+GOOGLE_KEY=""
+CX=""
+```
+
 ## Add run script
 
 ```json
@@ -79,5 +87,4 @@ googleSearch
   })
   .then((data) => console.log(googleSearch.getRandom(data.items)))
   .catch((error) => console.error(error));
-
 ```
