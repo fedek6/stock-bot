@@ -12,7 +12,8 @@ module.exports = {
     "halloween dog",
     "dog costume",
     "soldier",
-    "military"
+    "military",
+    "grumpy cat"
   ],
   get random() {
     return this.keywords[Math.floor(Math.random() * this.keywords.length)];
