@@ -1,6 +1,6 @@
 const googleSearch = require("./google-search");
-const { TwitterApi } = require("twitter-api-v2");
-const axios = require('axios').default;
+const TwitterBot = require("./twitter-bot");
+const axios = require("axios").default;
 
 const {
   GOOGLE_KEY,
@@ -11,43 +11,49 @@ const {
   TWITTER_ACCESS_TOKEN_SECRET,
 } = process.env;
 
-console.log("🦍 Hello world!");
-
-const client = new TwitterApi({
+const twitterConfig = {
   appKey: TWITTER_KEY,
   appSecret: TWITTER_KEY_SECRET,
   accessToken: TWITTER_ACCESS_TOKEN,
-  accessSecret:  TWITTER_ACCESS_TOKEN_SECRET,
-});
+  accessSecret: TWITTER_ACCESS_TOKEN_SECRET,
+};
 
+// Program start
+console.log("🦍 Hello world!");
 
-const keywords = "stock photo hacker";
+const twitterBot = new TwitterBot(twitterConfig);
+
+// Randomization
+const keywords = "stock photo senior";
+const randomPage = Math.floor(Math.random() * (100 - 1)) + 1;
+
+console.log(`🤔 Trying to get stocks from start ${randomPage}`);
 
 googleSearch
   .searchImages(keywords, GOOGLE_KEY, CX, {
     imgSize: "large",
-    start: Math.floor(Math.random() * (5 - 1)) + 1,
+    start: randomPage,
   })
   .then((data) => {
     const item = googleSearch.getRandom(data.items);
-    const { url } = item;
+    const { url, itemNo, itemCount } = item;
 
-    return axios.get(url, { responseType: 'arraybuffer' })
+    console.log(
+      `🤡 Trying to download item ${itemNo} from the set of ${itemCount}`
+    );
+
+    return axios.get(url, { responseType: "arraybuffer" });
   })
   .then((response) => {
     const buffer = Buffer.from(response.data, "utf-8");
 
-    return client.v1.uploadMedia(buffer, { type: "jpg" });
+    console.log("Buffering image!");
+
+    return twitterBot.uploadMedia(buffer);
   })
   .then((mediaIds) => {
-
-    /* const item = googleSearch.getRandom(data.items);
-    const { url, title } = item;
-    console.log(item); */
-    console.log(mediaIds);
-
-    return client.v1.tweet(`${keywords}`,  { media_ids: mediaIds });
+    console.log("🐦 Tweeting!");
+    return twitterBot.tweetWithMedia(keywords, mediaIds);
   })
-  .then((tweet) => console.log(tweet))
+  .then(() => console.log("👌 Everything went smooth!"))
   .catch((error) => console.error(error));
-

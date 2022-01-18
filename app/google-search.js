@@ -14,7 +14,6 @@ module.exports.searchImages =  async (keywords, key, cx, params = {}) => {
   const searchParams = {...defaultParams, ...params};
   let data;
 
-
   searchUrl.searchParams.append("q", keywords);
   searchUrl.searchParams.append("key", key);
   searchUrl.searchParams.append("cx", cx);
