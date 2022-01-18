@@ -1,5 +1,6 @@
 const googleSearch = require("./google-search");
 const TwitterBot = require("./twitter-bot");
+const dictionary = require("./dictionary");
 const axios = require("axios").default;
 
 const {
@@ -24,7 +25,10 @@ console.log("🦍 Hello world!");
 const twitterBot = new TwitterBot(twitterConfig);
 
 // Randomization
-const keywords = "stock photo senior";
+const keywords = `stock photo ${dictionary.random}`;
+
+console.log(`🐱 Using keywords: ${keywords}`);
+
 const randomPage = Math.floor(Math.random() * (100 - 1)) + 1;
 
 console.log(`🤔 Trying to get stocks from start ${randomPage}`);
