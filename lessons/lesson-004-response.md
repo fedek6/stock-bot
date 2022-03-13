@@ -98,3 +98,19 @@ switch (appArgs[0]) {
 }
 
 ```
+
+Now we can differentiate commands in application.
+
+## Lets add cache dir to config
+
+```js
+const twitterConfig = {
+  appKey: TWITTER_KEY,
+  appSecret: TWITTER_KEY_SECRET,
+  accessToken: TWITTER_ACCESS_TOKEN,
+  accessSecret: TWITTER_ACCESS_TOKEN_SECRET,
+  cachePath: path.resolve(__dirname, ".cache"),
+};
+```
+
+
