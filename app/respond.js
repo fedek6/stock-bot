@@ -7,7 +7,8 @@ module.exports = (twitterBot) => {
     .getMentions()
     .then((data) => {
       if (data.length > 0) {
-        const { id } = data[data.length - 1];
+        let { id } = data[data.length - 1];
+
         console.log("storing id", id + 1000)
         twitterBot.storeLastResponse(String(id + 1000));
 
@@ -16,8 +17,6 @@ module.exports = (twitterBot) => {
           keywords.shift();
           keywords = "stock photo " + keywords.join(" ");
           const currentId = row.id_str;
-
-          console.log(row);
 
           console.log(`🐱 Using keywords: ${keywords}`);
 
